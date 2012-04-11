@@ -2,7 +2,7 @@
 
 var config = require('../../lib/config');
 
-exports.testExpect = function expect(expected, cb) {
+exports.testExpectResponse = function expectResponse(expected, cb) {
   var test = this;
   return function(err, res, body) {
     if (err) {
