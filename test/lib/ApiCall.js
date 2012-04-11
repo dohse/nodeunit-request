@@ -1,6 +1,27 @@
 // Copyright 2012 Jonas Dohse. All Rights Reserved.
 
+var childProcess = require('child_process');
+
 var config = require('../../lib/config');
+
+exports.startServer = function(test, cb) {
+  var command = 'node';
+  var server = childProcess.spawn(command, ['lib/main.js']);
+  server.on('exit', function(code, signal) {
+    var err = code > 0 ? new Error(command + ': ' + code) : null;
+    test.ifError(err);
+  });
+  server.stdout.on('data', function(data) {
+    console.log('stdout: ' + data);
+  });
+  server.stderr.on('data', function(data) {
+    console.error('stderr: ' + data);
+  });
+
+  setTimeout(function() {
+    cb(null, server);
+  }, 500);
+};
 
 exports.testExpectResponse = function expectResponse(expected, cb) {
   var test = this;
