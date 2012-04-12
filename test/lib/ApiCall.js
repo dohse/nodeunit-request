@@ -1,16 +1,15 @@
 // Copyright 2012 Jonas Dohse. All Rights Reserved.
 
-var assert = require('assert');
 var childProcess = require('child_process');
 
 var config = require('../../lib/config');
 
-exports.startServer = function(cb) {
+exports.startServer = function(test, cb) {
   var command = 'node';
   var server = childProcess.spawn(command, ['lib/main.js']);
   server.on('exit', function(code, signal) {
     var err = code > 0 ? new Error(command + ': ' + code) : null;
-    assert.ifError(err);
+    test.ifError(err);
   });
   server.stdout.on('data', function(data) {
     console.log('stdout: ' + data);
