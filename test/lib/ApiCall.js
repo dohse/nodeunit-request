@@ -30,8 +30,8 @@ exports.testExpectResponse = function expectResponse(expected, cb) {
       return cb(err);
     }
     test.equal(res.statusCode, expected.statusCode);
-    if (expected.body) {
-      test.deepEqual(body, expected.body);
+    if (expected.json) {
+      test.deepEqual(JSON.parse(body), expected.json);
     }
     cb(null);
   };
