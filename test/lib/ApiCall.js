@@ -20,7 +20,7 @@ exports.startServer = function(test, cb) {
 
   setTimeout(function() {
     cb(null, server);
-  }, 500);
+  }, 1000);
 };
 
 exports.testExpectResponse = function expectResponse(expected, cb) {
