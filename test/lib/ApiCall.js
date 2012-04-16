@@ -35,7 +35,12 @@ var url = exports.url = function() {
 
 function testRequest(method, path, json) {
   var test = this;
-  var predicates = Array.prototype.slice.call(arguments, 3);
+
+  var predicates;
+  function takePredicates(predicates_) {
+    predicates = predicates_;
+    return doRequest;
+  }
 
   var cb;
   function doRequest(cb_) {
@@ -58,7 +63,7 @@ function testRequest(method, path, json) {
     cb(null);
   }
 
-  return doRequest;
+  return takePredicates;
 }
 
 function testJson(expectedJson) {
