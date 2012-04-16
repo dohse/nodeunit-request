@@ -4,7 +4,7 @@ var childProcess = require('child_process');
 
 var config = require('../../lib/config');
 
-exports.startServer = function(test, cb) {
+var startServer = exports.startServer = function(test, cb) {
   var command = 'node';
   var server = childProcess.spawn(command, ['lib/main.js']);
   server.on('exit', function(code, signal) {
@@ -23,7 +23,8 @@ exports.startServer = function(test, cb) {
   }, 1000);
 };
 
-exports.testExpectResponse = function expectResponse(expected, cb) {
+var testExpectResponse = exports.testExpectResponse =
+    function expectResponse(expected, cb) {
   var test = this;
   return function(err, res, body) {
     if (err) {
@@ -40,10 +41,44 @@ exports.testExpectResponse = function expectResponse(expected, cb) {
   };
 };
 
-exports.url = function() {
+var url = exports.url = function() {
   var protocol = config.string('API_PROTOCOL');
   var host = config.string('API_HOST');
   var port = config.int('API_PORT');
   var url = protocol + '://' + host + ':' + port;
   return url;
+};
+
+exports.withApi = function(integrationTest) {
+  var test;
+  function start(test_) {
+    test = test_;
+    test.expectResponse = testExpectResponse;
+
+    startServer(test, runTest);
+  }
+
+  var server;
+  var oldDone;
+  function runTest(err, server_) {
+    if (err) {
+      test.ifError(err);
+      return test.done();
+    }
+    server = server_;
+
+    oldDone = test.done;
+    test.done = done;
+
+    integrationTest(test, url());
+  }
+
+  function done(err) {
+    test.ifError(err);
+    test.done = oldDone;
+    server.kill();
+    test.done();
+  }
+
+  return start;
 };
