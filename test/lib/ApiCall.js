@@ -2,6 +2,8 @@
 
 var childProcess = require('child_process');
 
+var request = require('request');
+
 var config = require('../../lib/config');
 
 var startServer = exports.startServer = function(test, cb) {
@@ -23,24 +25,6 @@ var startServer = exports.startServer = function(test, cb) {
   }, 1000);
 };
 
-var testExpectResponse = exports.testExpectResponse =
-    function expectResponse(expected, cb) {
-  var test = this;
-  return function(err, res, body) {
-    if (err) {
-      return cb(err);
-    }
-    test.equal(res.statusCode, expected.statusCode);
-    if (res.statusCode !== expected.statusCode) {
-      console.error(body);
-    }
-    if (expected.json) {
-      test.deepEqual(JSON.parse(body), expected.json);
-    }
-    cb(null);
-  };
-};
-
 var url = exports.url = function() {
   var protocol = config.string('API_PROTOCOL');
   var host = config.string('API_HOST');
@@ -49,11 +33,55 @@ var url = exports.url = function() {
   return url;
 };
 
+function testRequest(method, path, json) {
+  var test = this;
+  var predicates = Array.prototype.slice.call(arguments, 3);
+
+  var cb;
+  function doRequest(cb_) {
+    cb = cb_;
+    request[method](url() + path, {
+      headers: {
+        'content-type': json ? 'application/json' : undefined
+      },
+      json: json
+    }, check);
+  }
+
+  function check(err, res, body) {
+    test.ifError(err);
+
+    predicates.forEach(function(predicate, index) {
+      predicate(err, res, body);
+    });
+
+    cb(null);
+  }
+
+  return doRequest;
+}
+
+function testJson(expectedJson) {
+  var test = this;
+  return function(err, res, body) {
+    test.deepEqual(JSON.parse(body), expectedJson);
+  };
+}
+
+function testCode(expectedCode) {
+  var test = this;
+  return function(err, res, body) {
+    test.equals(res.statusCode, expectedCode);
+  };
+}
+
 exports.withApi = function(integrationTest) {
   var test;
   function start(test_) {
     test = test_;
-    test.expectResponse = testExpectResponse;
+    test.request = testRequest;
+    test.json = testJson;
+    test.code = testCode;
 
     startServer(test, runTest);
   }
