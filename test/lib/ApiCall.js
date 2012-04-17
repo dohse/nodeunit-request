@@ -72,7 +72,7 @@ function testJson(expectedJson, order) {
   var test = this;
   return function(err, res, body) {
     var json = JSON.parse(body);
-    if (order) {
+    if (order && Array.isArray(json)) {
       json.sort(order);
     }
     test.deepEqual(json, expectedJson);
