@@ -103,7 +103,7 @@ exports.withApi = function(integrationTest) {
     oldDone = test.done;
     test.done = done;
 
-    integrationTest(test, url());
+    integrationTest(test, done);
   }
 
   function done(err) {
