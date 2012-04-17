@@ -66,10 +66,14 @@ function testRequest(method, path, json) {
   return takePredicates;
 }
 
-function testJson(expectedJson) {
+function testJson(expectedJson, order) {
   var test = this;
   return function(err, res, body) {
-    test.deepEqual(JSON.parse(body), expectedJson);
+    var json = JSON.parse(body);
+    if (order) {
+      json.sort(order);
+    }
+    test.deepEqual(json, expectedJson);
   };
 }
 
