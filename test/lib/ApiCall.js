@@ -54,7 +54,9 @@ function testRequest(method, path, json) {
   }
 
   function check(err, res, body) {
-    test.ifError(err);
+    if (err) {
+      return cb(err);
+    }
 
     predicates.forEach(function(predicate, index) {
       predicate(err, res, body);
