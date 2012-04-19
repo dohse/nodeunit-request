@@ -2,9 +2,8 @@
 
 var childProcess = require('child_process');
 
+var getenv = require('getenv');
 var request = require('request');
-
-var config = require('../../lib/config');
 
 var startServer = exports.startServer = function(test, cb) {
   var command = 'node';
@@ -26,9 +25,9 @@ var startServer = exports.startServer = function(test, cb) {
 };
 
 var url = exports.url = function() {
-  var protocol = config.string('API_PROTOCOL');
-  var host = config.string('API_HOST');
-  var port = config.int('API_PORT');
+  var protocol = getenv.string('API_PROTOCOL');
+  var host = getenv.string('API_HOST');
+  var port = getenv.int('API_PORT');
   var url = protocol + '://' + host + ':' + port;
   return url;
 };
