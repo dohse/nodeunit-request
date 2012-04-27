@@ -1,0 +1,13 @@
+# Copyright 2012 Jonas Dohse. All Rights Reserved.
+
+export HTTP_PROTOCOL="http"
+export HTTP_HOST="localhost"
+export HTTP_PORT=9000
+
+# Default apache combined log format with response time. Set to "" to disable.
+export EXPRESS_LOGGER_FORMAT=':remote-addr - - [:date] '\
+'":method :url HTTP/:http-version" :status :res[content-length] '\
+'":referrer" ":user-agent" ":response-time ms"'
+
+export LOG_STACK=true
+export LOG_LEVEL="debug"
