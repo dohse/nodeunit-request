@@ -1,13 +1,12 @@
 {
-  "name": "boilerplate",
+  "name": "http-test",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/dohse/node-boilerplate",
+  "homepage": "https://github.com/dohse/http-test",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dohse/node-boilerplate.git"
+    "url": "git://github.com/dohse/http-test.git"
   },
-  "main": "lib/nodeunit-request",
   "scripts": {
     "test": "make test"
   },
@@ -15,15 +14,16 @@
     "node": "0.6"
   },
   "dependencies": {
-    "request": "~2.9.153"
-  },
-  "devDependencies": {
     "async": "~0.1.18",
     "express": "~2.5.9",
+    "getenv":"~0.2.0",
+    "log": "git://github.com/ctavan/node-log.git#v0.1.0"
+  },
+  "devDependencies": {
     "jshint": "~0.5.9",
     "nodeunit": "~0.7.4",
-    "request": "~2.9.153",
-    "sinon": "~1.3.4"
+    "sinon": "~1.3.4",
+    "request": "~2.9.153"
   }
 }
 
