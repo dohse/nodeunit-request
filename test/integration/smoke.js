@@ -2,7 +2,7 @@
 
 var async = require('async');
 
-var httpTest = require('../../lib/http-test');
+var httpTest = require('../../lib/nodeunit-request');
 
 var httpUrl = exports.url = 'http://localhost:19585';
 
