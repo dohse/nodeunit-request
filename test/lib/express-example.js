@@ -18,4 +18,4 @@ function reflect(req, res, next) {
 app.get('/:code', reflect);
 app.post('/:code', reflect);
 
-app.listen(url.parse(smoke.url).port);
+app.listen(url.parse(smoke.urlPrefix).port);
