@@ -1,8 +1,0 @@
-#!/bin/bash -ea
-
-BASE="${BASH_SOURCE%/*}/.."
-
-cd $BASE
-
-source etc/profile
-exec node lib/main.js

@@ -3,10 +3,6 @@
 PATH := $(CURDIR)/test/bin:$(PATH)
 SHELL := $(shell which bash)
 
-RSYSLOG_CONFIG = 30-boilerplate.conf
-UPSTART_CONFIG = boilerplate.conf
-LOG_DIR = boilerplate
-
 unit: check force
 	run-tests -u $(ARGS)
 
@@ -38,15 +34,6 @@ gjslint: force
 		-e test/fixtures \
 		-r lib -r test -r bin
 
-deploy: install /var/log/$(LOG_DIR)
-	install -m 644 share/rsyslog.conf \
-		/etc/rsyslog.d/$(RSYSLOG_CONFIG)
-	install -m 644 share/upstart.conf /etc/init/$(UPSTART_CONFIG)
-
-undeploy: force
-	rm -rf /etc/rsyslog.d/$(RSYSLOG_CONFIG)
-	rm -rf /etc/init/$(UPSTART_CONFIG)
-
-install: clean node_modules etc/profile force
+install: clean node_modules force
 
 .PHONY: force
