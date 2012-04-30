@@ -1,13 +1,13 @@
 {
-  "name": "boilerplate",
+  "name": "nodeunit-request",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/dohse/node-boilerplate",
+  "homepage": "https://github.com/dohse/nodeunit-request",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dohse/node-boilerplate.git"
+    "url": "git://github.com/dohse/nodeunit-request.git"
   },
-  "main": "lib/nodeunit-request",
+  "main": "lib/http-test",
   "scripts": {
     "test": "make test"
   },

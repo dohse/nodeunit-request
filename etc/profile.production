@@ -1,3 +1,0 @@
-# Copyright 2012 Jonas Dohse. All Rights Reserved.
-
-source "${BASH_SOURCE%/*}/profile.default"

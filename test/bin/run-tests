@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 # Copyright 2012 Jonas Dohse. All Rights Reserved.
 
-set -a
-source etc/profile
-set +a
-
 runTests() {
     local EXITCODE=0
     local cur=0
